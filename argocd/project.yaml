@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: demo-app
+  namespace: argocd
+spec:
+  description: Demo application only
+  sourceRepos:
+    - git@10.20.0.10:root/cicd-gitops-lab.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: demo-app
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: apps
+      kind: Deployment
+    - group: ""
+      kind: Service

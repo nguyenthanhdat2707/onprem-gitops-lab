@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-frontend
+  namespace: argocd
+spec:
+  project: demo-app
+  source:
+    repoURL: git@10.20.0.10:root/cicd-gitops-lab.git
+    targetRevision: main
+    path: charts/demo-app
+    helm:
+      releaseName: demo-frontend
+      valuesObject:
+        role: frontend
+        image:
+          repository: 10.20.0.10:5050/root/cicd-lab
+          digest: sha256:a5f6997960b602d3b556cde2621b3bc4756224056397ca14a7779ff0f3e3eea0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-app
